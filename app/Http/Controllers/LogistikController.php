@@ -46,7 +46,7 @@ class LogistikController extends Controller
         $tgl = date('d/m/Y'); 
         $data = array();
         $rdm = substr(str_shuffle('0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZqwertyuiopasdfghjklzxcvbnm'),1,8);
-        $det = date('d/m/Y/H/i/s');
+        $det = date('dmYHis');
         $aidi = $det.$rdm;
         foreach ($req['nama'] as $key => $val) {
             $jml= $req['jumlah'][$key];
@@ -79,7 +79,7 @@ class LogistikController extends Controller
         $tgl = date('d/m/Y'); 
         $data = array();
         $rdm = substr(str_shuffle('0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZqwertyuiopasdfghjklzxcvbnm'),1,8);
-        $det = date('d/m/Y/H/i/s');
+        $det = date('dmYHis');
         $aidi = $det.$rdm;
         foreach ($req['nama'] as $key => $val) {
             $jml= $req['jumlah'][$key];
@@ -100,4 +100,26 @@ class LogistikController extends Controller
     {
         return view('logistik/stok_mentah');
     }
+
+    public function tes(){
+        $client = new \GuzzleHttp\Client();
+        $data = [
+            'response'=>'kochenk',
+            'hewan'=>'lucu',
+            'detail'=>[
+                'putih',
+                'endut',
+                'emez'
+            ]
+        ];
+        $response = $client->request('POST', env('dila_url').'api/ambil/kochenk',['json'=>$data]);
+        // $response = $client->request('POST', 'http://bordir.dila/api/ambil/');
+        // $isi =  json_decode($response->getBody());
+        // echo $isi->detail[0];
+        echo $response->getBody();
+
+    }
+
+
+
 }

@@ -45,3 +45,11 @@ Route::get('/logistik/stok_mentah','LogistikController@stok_mentah');
 Route::get('/logistik/req_pendukung','LogistikController@req_pendukung');
 Route::post('/logistik/req_pendukung','LogistikController@request_pendukung');
 Route::get('/logistik/stok_pendukung','LogistikController@stok_pendukung');
+
+Route::get('/logistik/tes','LogistikController@tes');
+
+
+Route::get('/produksi','ProduksiController@index')->name('produksi');
+Route::get('/produksi/penjadwalan','ProduksiController@index');
+Route::get('/produksi/produksi-dan-reporting','ProduksiController@produksiReportIndex');
+Route::get('/produksi/rencana','ProduksiController@rencanaIndex');
