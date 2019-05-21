@@ -53,3 +53,8 @@ Route::get('/produksi','ProduksiController@index')->name('produksi');
 Route::get('/produksi/penjadwalan','ProduksiController@index');
 Route::get('/produksi/produksi-dan-reporting','ProduksiController@produksiReportIndex');
 Route::get('/produksi/rencana','ProduksiController@rencanaIndex');
+Route::get('/produksi/request','ProduksiController@requestList');
+Route::get('/produksi/request/rincian/{id}','ProduksiController@requestDetail');
+
+Route::get('/produksi/cobamultiple','ProduksiController@coba');
+

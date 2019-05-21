@@ -153,7 +153,7 @@
                                 </tr>
                                 <tr>
                                     <th>Beludru Sulam</th>
-                                    <th>Beludru Sulam</th>
+                                    <th>Satin Sulam</th>
                                 </tr>
                             </thead>
                             <tbody><?php $no = 1;?>
