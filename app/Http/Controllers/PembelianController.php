@@ -10,7 +10,7 @@ class PembelianController extends Controller
     //mentahh
     function req_mentah(Request $req){
         $data = array();
-        $rs = DB::table('req_beli_mentah')->where('status','belum')->orderBy('request_id', 'asc')->get();
+        $rs = DB::table('req_beli_mentah')->where('status','proses')->orderBy('request_id', 'asc')->get();
 
     	return view('pembelian/req_mentah',['req'=>$rs]);
     }
@@ -102,7 +102,7 @@ class PembelianController extends Controller
 
     function req_pendukung(Request $req){
         $data = array();
-        $rs = DB::table('req_beli_pendukung')->where('status','belum')->orderBy('request_id', 'asc')->get();
+        $rs = DB::table('req_beli_pendukung')->where('status','proses')->orderBy('request_id', 'asc')->get();
 
     	return view('pembelian/req_pendukung',['req'=>$rs]);
     }

@@ -37,30 +37,15 @@ class LogistikController extends Controller
 
     public function req_mentah()
     {
-        return view('logistik/req_mentah');
+        $rs = DB::table('req_beli_mentah')->where('status','belum')->orderBy('request_id', 'asc')->get();
+        return view('logistik/req_mentah',['req'=>$rs]);
     }
 
     public function request_mentah(Request $req)
     {
-        date_default_timezone_set("Asia/Bangkok");
-        $tgl = date('d/m/Y'); 
-        $data = array();
-        $rdm = substr(str_shuffle('0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZqwertyuiopasdfghjklzxcvbnm'),1,8);
-        $det = date('dmYHis');
-        $aidi = $det.$rdm;
-        foreach ($req['nama'] as $key => $val) {
-            $jml= $req['jumlah'][$key];
-            $data[] = array(
-                'nama'=>$val,
-                'jumlah'=>$jml,
-                'tanggal'=>$tgl,
-                'request_id'=>$aidi
-            );
-        }
-        DB::table('req_beli_mentah')->insert($data);
-        return redirect('/logistik/req_mentah');
         
-
+        DB::table('req_beli_mentah')->where('request_id',$req['request_id'])->update(['status'=>'proses']);
+        return redirect('/logistik/req_mentah');
     }
 
     public function stok_pendukung()
@@ -70,27 +55,13 @@ class LogistikController extends Controller
 
     public function req_pendukung()
     {
-        return view('logistik/req_pendukung');
+        $rs = DB::table('req_beli_pendukung')->where('status','belum')->orderBy('request_id', 'asc')->get();
+        return view('logistik/req_pendukung',['req'=>$rs]);
     }
 
     public function request_pendukung(Request $req)
     {
-        date_default_timezone_set("Asia/Bangkok");
-        $tgl = date('d/m/Y'); 
-        $data = array();
-        $rdm = substr(str_shuffle('0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZqwertyuiopasdfghjklzxcvbnm'),1,8);
-        $det = date('dmYHis');
-        $aidi = $det.$rdm;
-        foreach ($req['nama'] as $key => $val) {
-            $jml= $req['jumlah'][$key];
-            $data[] = array(
-                'nama'=>$val,
-                'jumlah'=>$jml,
-                'tanggal'=>$tgl,
-                'request_id'=>$aidi
-            );
-        }
-        DB::table('req_beli_pendukung')->insert($data);
+        DB::table('req_beli_pendukung')->where('request_id',$req['request_id'])->update(['status'=>'proses']);
         return redirect('/logistik/req_pendukung');
         
 

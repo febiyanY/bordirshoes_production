@@ -9,7 +9,7 @@
     <!-- Content Header (Page header) -->
     <section class="content-header">
         <h1>
-            Detail Request Produksi
+            Detail Siap Produksi
             <small></small>
         </h1>
     </section>
@@ -18,74 +18,16 @@
     <section class="content container-fluid">
         <div class="row">
             <div class="col-md-12">
-                <form action="{{url('produksi/request/send')}}" method="post" enctype="multipart/form-data">
+                <form action="{{url('produksi/ready/detail/send')}}" method="post" enctype="multipart/form-data">
+                    {{csrf_field()}}
                     <div class="box">
 
                         <div class="row">
-                            {{csrf_field()}}
+
                             <div class="col-12">
                                 <div class="box-body table-responsive">
-                                    <h5 style="text-align:center">Produksi ID ({{$detail[0]->idPemesanan}})</h5>
+                                    <h5 style="text-align:center">Bahan yang diButuhkan ID ({{$detail[0]->idPemesanan}})</h5>
                                     <input type="hidden" name="idPemesanan" value="{{$detail[0]->idPemesanan}}">
-                                    <table class="table table-striped">
-                                        <thead>
-                                            <tr>
-                                                <th scope="col"> </th>
-
-                                                <th scope="col">Produk</th>
-                                                <th scope="col">Ukuran</th>
-                                                <th scope="col" class="text-center">Jumlah</th>
-                                                <th scope="col" class="text-right">Harga</th>
-                                                <th> </th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <?php $total=0;$totalQty=0?>
-                                            @foreach($detail as $cp)
-                                            <tr>
-                                                <td><img src="https://dummyimage.com/50x50/55595c/fff" /> </td>
-
-                                                <td>{{$cp->productName}}</td>
-                                                <td>{{$cp->size}}</td>
-                                                <td>{{$cp->quantity}}</td>
-                                                <td class="text-right">Rp. {{$cp->totalPrice}}</td>
-                                                <!-- <td class="text-right"><a href="#" class="btn btn-sm btn-danger"><i class="fa fa-trash"></i> </a> </td> -->
-                                            </tr>
-                                            <?php 
-                                            $total=$total+($cp->totalPrice);
-                                            $totalQty=$totalQty+($cp->quantity);
-                                            
-                                            ?>
-                                            @endforeach
-
-                                            <tr>
-                                                <td></td>
-
-                                                <td></td>
-                                                <td><strong>Total Barang</strong></td>
-                                                <td><strong>{{$totalQty}}</strong></td>
-                                                <td></td>
-
-                                            </tr>
-
-                                        </tbody>
-                                    </table>
-
-                                </div>
-
-                            </div>
-
-
-                        </div>
-
-                    </div>
-                    <div class="box">
-
-                        <div class="row">
-
-                            <div class="col-12">
-                                <div class="box-body table-responsive">
-                                    <h5 style="text-align:center">Bahan yang diButuhkan</h5>
                                     <table class="table table-bordered table-hover dataTable">
                                         <thead>
                                             <tr>
@@ -175,9 +117,6 @@
                         </div>
 
                     </div>
-
-
-
                     <div class="box">
 
                             <div class="row">
@@ -187,7 +126,7 @@
                                         
                                         
                                         <input class="btn btn-lg btn-block btn-success text-uppercase" type="submit"
-                                            value="Request Bahan">
+                                            value="Produksi">
                                     </div>
     
                                 </div>

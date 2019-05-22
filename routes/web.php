@@ -55,6 +55,12 @@ Route::get('/produksi/produksi-dan-reporting','ProduksiController@produksiReport
 Route::get('/produksi/rencana','ProduksiController@rencanaIndex');
 Route::get('/produksi/request','ProduksiController@requestList');
 Route::get('/produksi/request/rincian/{id}','ProduksiController@requestDetail');
+Route::post('/produksi/request/send','ProduksiController@sendToLogistic');
+Route::get('/produksi/ready','ProduksiController@readyList');
+Route::get('/produksi/ready/detail/{id}','ProduksiController@readyDetail');
+Route::post('/produksi/ready/detail/send','ProduksiController@sendReadyToLogistic');
+
+
 
 Route::get('/produksi/cobamultiple','ProduksiController@coba');
 
