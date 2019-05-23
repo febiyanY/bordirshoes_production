@@ -72,6 +72,55 @@ class LogistikController extends Controller
         return view('logistik/stok_mentah');
     }
 
+
+    public function readyPengirimanList(){
+        $client = new \GuzzleHttp\Client();
+        $response = $client->request('GET', $this->url . 'api/logistik/list-ready-pengiriman')->getBody();
+        $response = json_decode($response);
+
+        return view('logistik.readyPengiriman', ['ready' => $response]);
+    }
+
+    public function readyPengirimanDetail($id){
+        $client = new \GuzzleHttp\Client();
+        $response = $client->request('GET', $this->url . 'api/logistik/detail-ready-pengiriman/'.$id)->getBody();
+        $response = json_decode($response);
+
+        return view('logistik.readyDetail', ['detail' => $response]);
+    }
+
+    public function readyPengirimanSend(Request $req){
+        $id = $req['idPemesanan'];
+        $client = new \GuzzleHttp\Client();
+        $response = $client->request('POST', $this->url . 'api/logistik/send-ready-pengiriman',['json'=>['idPemesanan'=>$id]])->getBody();
+        $response = json_decode($response);
+        if($response->status=='success'){
+            return redirect('logistik/ready');
+        }else{
+            return redirect()->back();
+        }
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     public function tes(){
         $client = new \GuzzleHttp\Client();
         $data = [

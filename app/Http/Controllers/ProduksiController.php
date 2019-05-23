@@ -282,6 +282,22 @@ class ProduksiController extends Controller
         }
     }
 
+    public function inProductionList(){
+        $client = new \GuzzleHttp\Client();
+        $response = $client->request('GET', $this->url . 'api/produksi/in-production-list')->getBody();
+        $response = json_decode($response);
+
+        return view('produksi.inProductionList',['product'=>$response]);
+    }
+
+    public function doneProduction($id){
+        $client = new \GuzzleHttp\Client();
+        $response = $client->request('GET', $this->url . 'api/produksi/done/confirm/'.$id)->getBody();
+        $response = json_decode($response);
+
+        return redirect('produksi/list-dalam-produksi');
+    }
+
 
 
 

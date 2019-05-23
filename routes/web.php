@@ -45,6 +45,9 @@ Route::get('/logistik/stok_mentah','LogistikController@stok_mentah');
 Route::get('/logistik/req_pendukung','LogistikController@req_pendukung');
 Route::post('/logistik/req_pendukung','LogistikController@request_pendukung');
 Route::get('/logistik/stok_pendukung','LogistikController@stok_pendukung');
+Route::get('/logistik/ready','LogistikController@readyPengirimanList');
+Route::get('/logistik/ready/detail/{id}','LogistikController@readyPengirimanDetail');
+Route::post('/logistik/ready/send','LogistikController@readyPengirimanSend');
 
 Route::get('/logistik/tes','LogistikController@tes');
 
@@ -59,7 +62,8 @@ Route::post('/produksi/request/send','ProduksiController@sendToLogistic');
 Route::get('/produksi/ready','ProduksiController@readyList');
 Route::get('/produksi/ready/detail/{id}','ProduksiController@readyDetail');
 Route::post('/produksi/ready/detail/send','ProduksiController@sendReadyToLogistic');
-
+Route::get('/produksi/list-dalam-produksi','ProduksiController@inProductionList');
+Route::get('/produksi/selesai/konfirmasi/{id}','ProduksiController@doneProduction');
 
 
 Route::get('/produksi/cobamultiple','ProduksiController@coba');
