@@ -18,7 +18,7 @@
       <div class="row">
         <div class="col-md-12">
           <div class="box">
-              <form action="{{url('/pembelian/konfirmasi_done_pendukung')}}" method="post">
+              <form action="{{url('/pembelian/konfirmasi_done_pendukung')}}" method="post" enctype="multipart/form-data">
                 <input type="hidden" class="form-control" name="request_id" value="{{$id}}">
                 <input type="hidden" class="form-control" name="tanggal" value="{{$tgl}}">
             <div class="box-header with-border">

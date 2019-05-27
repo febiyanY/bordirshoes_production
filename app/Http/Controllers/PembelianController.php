@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
 
 use Illuminate\Http\Request;
 
@@ -62,37 +63,84 @@ class PembelianController extends Controller
     }
 
     public function konfirmasi_done_mentah(Request $req){
+
+        $files = $req->file('bukti');
         $id = $req['request_id'];
         $tgl = $req['tanggal'];
-        DB::table('req_beli_mentah')->where('request_id',$id)->delete();
+        
         $data = array();
         $activity = array();
-        foreach ($req['nama'] as $key => $val) {
-            $jml= $req['jumlah'][$key];
-            $ven= $req['vendor'][$key];
-            $name = $req['nama'][$key];
-            $price = $req['total'][$key];
-            $data[] = array(
-                'nama'=>$val,
-                'jumlah'=>$jml,
-                'tanggal'=>$tgl,
-                'request_id'=>$id,
-                'vendor'=>$ven,
-                'status'=>'selesai',
-                'total_harga'=>$price
-            );
-            $activity[] = array(
-                'nama'=>$val,
-                'jumlah'=>$jml,
-                'tanggal'=>$tgl,
-                'activity_id'=>$id,
-                'jenis'=>'masuk'
-            );
-            DB::table('barang_mentah')->where('nama', $name)->update(['jumlah' => DB::raw("jumlah + $jml")]);
-        }
-        DB::table('req_beli_mentah')->insert($data);
-        DB::table('activity_mentah')->insert($activity);
-        return redirect('/pembelian/done_mentah');
+        $allowedfileExt=['jpg','png'];
+        $check = 0;
+        $pathList = array();
+        if($files!=null){
+            if(count($files)==count($req['nama'])){
+                foreach($files as $file){
+                    $ext = $file->getClientOriginalExtension();
+                    if(!in_array($ext,$allowedfileExt)){
+                        $check = 1;
+                    }
+                }
+                if($check==0){
+                    DB::table('req_beli_mentah')->where('request_id',$id)->delete();
+                    foreach($files as $fl){
+                        $path = $fl->store('public/image/bukti');
+                        $pathList[] = str_replace('public','storage',$path);
+                    }
+                    foreach ($req['nama'] as $key => $val) {
+                        $jml= $req['jumlah'][$key];
+                        $ven= $req['vendor'][$key];
+                        $name = $req['nama'][$key];
+                        $price = $req['total'][$key];
+                        $data[] = array(
+                            'nama'=>$val,
+                            'jumlah'=>$jml,
+                            'tanggal'=>$tgl,
+                            'request_id'=>$id,
+                            'vendor'=>$ven,
+                            'status'=>'selesai',
+                            'total_harga'=>$price
+                        );
+                        $activity[] = array(
+                            'nama'=>$val,
+                            'jumlah'=>$jml,
+                            'tanggal'=>$tgl,
+                            'activity_id'=>$id,
+                            'jenis'=>'masuk',
+                            'bukti'=>$pathList[$key]
+                        );
+                        DB::table('barang_mentah')->where('nama', $name)->update(['jumlah' => DB::raw("jumlah + $jml")]);
+                    }
+                    DB::table('req_beli_mentah')->insert($data);
+                    DB::table('activity_mentah')->insert($activity);
+                    return redirect('/pembelian/done_mentah');
+                    // return response()->json($activity);
+        
+                }else{
+                    echo "<h1>Ekstensi file hanya boleh JPG dan PNG</h1>";
+                }
+            }else{
+                echo "<h1>Lengkapi bukti pembayaran</h1>";
+            }
+        }else{
+            // return redirect()->back()->withErrors(['salahhh']);
+            echo "<h1>Lengkapi bukti pembayaran</h1>";
+        } 
+        
+        
+        
+
+        
+        
+
+
+
+        
+        
+        
+        
+
+
 
         
     }
@@ -154,36 +202,99 @@ class PembelianController extends Controller
     }
 
     public function konfirmasi_done_pendukung(Request $req){
+        $files = $req->file('bukti');
         $id = $req['request_id'];
         $tgl = $req['tanggal'];
-        DB::table('req_beli_pendukung')->where('request_id',$id)->delete();
+        
         $data = array();
-        foreach ($req['nama'] as $key => $val) {
-            $jml= $req['jumlah'][$key];
-            $ven= $req['vendor'][$key];
-            $name = $req['nama'][$key];
-            $price = $req['total'][$key];
-            $data[] = array(
-                'nama'=>$val,
-                'jumlah'=>$jml,
-                'tanggal'=>$tgl,
-                'request_id'=>$id,
-                'vendor'=>$ven,
-                'status'=>'selesai',
-                'total_harga'=>$price
-            );
-            $activity[] = array(
-                'nama'=>$val,
-                'jumlah'=>$jml,
-                'tanggal'=>$tgl,
-                'activity_id'=>$id,
-                'jenis'=>'masuk'
-            );
-            DB::table('barang_pendukung')->where('nama', $name)->update(['jumlah' => DB::raw("jumlah + $jml")]);
-        }
-        DB::table('req_beli_pendukung')->insert($data);
-        DB::table('activity_pendukung')->insert($activity);
-        return redirect('/pembelian/done_pendukung');
+        $activity = array();
+        $allowedfileExt=['jpg','png'];
+        $check = 0;
+        $pathList = array();
+        if($files!=null){
+            if(count($files)==count($req['nama'])){
+                foreach($files as $file){
+                    $ext = $file->getClientOriginalExtension();
+                    if(!in_array($ext,$allowedfileExt)){
+                        $check = 1;
+                    }
+                }
+                if($check==0){
+                    DB::table('req_beli_pendukung')->where('request_id',$id)->delete();
+                    foreach($files as $fl){
+                        $path = $fl->store('public/image/bukti');
+                        $pathList[] = str_replace('public','storage',$path);
+                    }
+                    foreach ($req['nama'] as $key => $val) {
+                        $jml= $req['jumlah'][$key];
+                        $ven= $req['vendor'][$key];
+                        $name = $req['nama'][$key];
+                        $price = $req['total'][$key];
+                        $data[] = array(
+                            'nama'=>$val,
+                            'jumlah'=>$jml,
+                            'tanggal'=>$tgl,
+                            'request_id'=>$id,
+                            'vendor'=>$ven,
+                            'status'=>'selesai',
+                            'total_harga'=>$price
+                        );
+                        $activity[] = array(
+                            'nama'=>$val,
+                            'jumlah'=>$jml,
+                            'tanggal'=>$tgl,
+                            'activity_id'=>$id,
+                            'jenis'=>'masuk',
+                            'bukti'=>$pathList[$key]
+                        );
+                        DB::table('barang_mentah')->where('nama', $name)->update(['jumlah' => DB::raw("jumlah + $jml")]);
+                    }
+                    DB::table('req_beli_pendukung')->insert($data);
+                    DB::table('activity_pendukung')->insert($activity);
+                    return redirect('/pembelian/done_pendukung');
+                    // return response()->json($activity);
+        
+                }else{
+                    echo "<h1>Ekstensi file hanya boleh JPG dan PNG</h1>";
+                }
+            }else{
+                echo "<h1>Lengkapi bukti pembayaran</h1>";
+            }
+        }else{
+            // return redirect()->back()->withErrors(['salahhh']);
+            echo "<h1>Lengkapi bkti pembayaran</h1>";
+        } 
+        
+        // $id = $req['request_id'];
+        // $tgl = $req['tanggal'];
+        // DB::table('req_beli_pendukung')->where('request_id',$id)->delete();
+        // $data = array();
+        // foreach ($req['nama'] as $key => $val) {
+        //     $jml= $req['jumlah'][$key];
+        //     $ven= $req['vendor'][$key];
+        //     $name = $req['nama'][$key];
+        //     $price = $req['total'][$key];
+        //     $data[] = array(
+        //         'nama'=>$val,
+        //         'jumlah'=>$jml,
+        //         'tanggal'=>$tgl,
+        //         'request_id'=>$id,
+        //         'vendor'=>$ven,
+        //         'status'=>'selesai',
+        //         'total_harga'=>$price
+        //     );
+        //     $activity[] = array(
+        //         'nama'=>$val,
+        //         'jumlah'=>$jml,
+        //         'tanggal'=>$tgl,
+        //         'activity_id'=>$id,
+        //         'jenis'=>'masuk'
+        //     );
+        //     DB::table('barang_pendukung')->where('nama', $name)->update(['jumlah' => DB::raw("jumlah + $jml")]);
+        // }
+        // DB::table('req_beli_pendukung')->insert($data);
+        // DB::table('activity_pendukung')->insert($activity);
+        // return redirect('/pembelian/done_pendukung');
 
         
     }
